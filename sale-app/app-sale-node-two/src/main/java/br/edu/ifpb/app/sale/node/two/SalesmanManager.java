@@ -37,7 +37,7 @@ public class SalesmanManager extends UnicastRemoteObject implements SalesmanServ
     }
 
     @Override
-    public Salesman get(String name) throws RemoteException {
+    public Salesman get(int id) throws RemoteException {
         return null;
     }
     

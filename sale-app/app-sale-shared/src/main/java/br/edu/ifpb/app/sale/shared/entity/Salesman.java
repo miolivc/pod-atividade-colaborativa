@@ -12,6 +12,9 @@ package br.edu.ifpb.app.sale.shared.entity;
 public class Salesman extends Person {
     private String phone;
 
+    public Salesman() {
+    }
+
     public Salesman(String name, String phone) {
         super(name);
         this.phone = phone;
