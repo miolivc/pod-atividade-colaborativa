@@ -29,6 +29,9 @@ public class ConexSocket {
     private static final int PORTA_NODE3 = 10998;
     private static final String HOST_NODE1 = "localhost";
     private static final String HOST_NODE3 = "localhost";
+    private static String origem ="";
+    
+    public static String getOrigem(){ return origem;}
     
     public static String cadastraVendedor(Salesman vendedor) throws IOException, Exception{
         String retorno = "";

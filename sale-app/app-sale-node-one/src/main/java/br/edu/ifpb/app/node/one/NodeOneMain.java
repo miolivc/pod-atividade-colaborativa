@@ -32,8 +32,10 @@ public class NodeOneMain {
         registry.bind("ProductService", productService);
   */
         try {
-            Person pessoa = ConexSocket.receberPessoa();
-            ConexSocket.cadastraVendedor((Salesman) pessoa);
+            Salesman pessoa = ConexSocket.receberVendedor();
+            PersistPerson per = new PersistPerson();
+            per.add(pessoa);
+            ConexSocket.cadastraVendedor(pessoa);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

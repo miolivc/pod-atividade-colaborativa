@@ -24,8 +24,8 @@ public class PersistSalesman implements SalesmanService {
     
     @Override
     public void add(Salesman salesman) throws RemoteException {
-        
-    }
+         
+   }
 
     @Override
     public void remove(int id) throws RemoteException {

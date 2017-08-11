@@ -1,4 +1,4 @@
-package br.edu.ifpb.app.node.one;
+package br.edu.ifpb.app.sale.node.two;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -29,20 +29,18 @@ public class ConexSocket {
     private static final int PORTA_NODE2 = 10997;
     private static final String HOST_NODE1 = "localhost";
     private static final String HOST_NODE2 = "localhost";
-    private static final String REMETENTE = "NODE1---";
-    private static String Origem ="";
+    private static String origem = "";
     
     public static String getOrigem(){
-        return Origem;
+        return origem;
     }
     
-    public static String cadastraVendedor(Salesman vendedor) throws IOException, Exception{
+    public static String cadastraPessoa(Person pessoa) throws IOException, Exception{
         String retorno = "";
-        Socket sock = new Socket(HOST_NODE2, PORTA_NODE2);
+        Socket sock = new Socket(HOST_NODE1, PORTA_NODE1);
         OutputStream out = sock.getOutputStream();
         Gson g = new Gson();
-        String mensagem = g.toJson(vendedor);
-        mensagem = REMETENTE + mensagem;
+        String mensagem = g.toJson(pessoa);
         out.write(mensagem.getBytes());
         //tratando o retorno
         InputStream in = sock.getInputStream();
@@ -61,16 +59,18 @@ public class ConexSocket {
      public static Salesman receberVendedor () throws IOException{
         String mensagem = "";
         System.out.println("Servidor ativo!");
-        ServerSocket server = new ServerSocket(PORTA_NODE1);
+        ServerSocket server = new ServerSocket(PORTA_NODE2);
         while(true){
             Socket sock = server.accept();
             InputStream in = sock.getInputStream();
             byte[] b = new byte[1024];
             in.read(b);
             mensagem = new String(b).trim();
+            String[] retorno = mensagem.split("---");
+            origem = retorno[0];
             server.close();
             Gson g = new Gson();
-            return g.fromJson(mensagem, Salesman.class);
+            return g.fromJson(retorno[1], Salesman.class);
         }
         
     }

@@ -5,6 +5,8 @@
  */
 package br.edu.ifpb.app.sale.node.two;
 
+import br.edu.ifpb.app.sale.shared.entity.Person;
+import br.edu.ifpb.app.sale.shared.entity.Salesman;
 import br.edu.ifpb.app.sale.shared.service.SalesmanService;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -18,13 +20,24 @@ import java.rmi.registry.Registry;
 public class NodeTwoMain {
     
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
-        
+        /*
         SalesmanService salesmanService = new SalesmanManager();
         
         Registry registry = LocateRegistry.createRegistry(10999);
         
         registry.bind("SalesmanService", salesmanService);
-        
+        */
+        try {
+            Salesman vendedor = ConexSocket.receberVendedor();
+            PersistSalesman per = new PersistSalesman();
+            if (ConexSocket.getOrigem().equals("NODE3")){
+                ConexSocket.cadastraPessoa((Person)vendedor);
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            
+        }
     }
     
 }
