@@ -5,9 +5,12 @@
  */
 package br.edu.ifpb.app.sale.client;
 
-import br.edu.ifpb.app.sale.shared.entity.Person;
+import br.edu.ifpb.app.sale.shared.entity.Order;
+import br.edu.ifpb.app.sale.shared.entity.Product;
 import br.edu.ifpb.app.sale.shared.entity.Salesman;
-import br.edu.ifpb.app.sale.shared.service.PersonService;
+import br.edu.ifpb.app.sale.shared.service.OrderService;
+import br.edu.ifpb.app.sale.shared.service.ProductService;
+import br.edu.ifpb.app.sale.shared.service.SalesmanService;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -16,17 +19,18 @@ import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import sun.print.resources.serviceui;
 
 /**
  *
  * @author miolivc
  */
-public class AdicionarVendedor extends javax.swing.JFrame {
+public class AdicionarOrder extends javax.swing.JFrame {
 
     /**
-     * Creates new form AdicionarVendedor
+     * Creates new form AdicionarOrder
      */
-    public AdicionarVendedor() {
+    public AdicionarOrder() {
         initComponents();
     }
 
@@ -44,8 +48,10 @@ public class AdicionarVendedor extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        name1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        quantity = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        vendedor = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,9 +59,9 @@ public class AdicionarVendedor extends javax.swing.JFrame {
         jLabel1.setText("Pedido de Produtos");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel2.setText("Adicionar Vendedor");
+        jLabel2.setText("Adicionar Ordem de Venda");
 
-        jLabel3.setText("Nome do Vendedor:");
+        jLabel3.setText("Nome do Produto:");
 
         name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,29 +76,41 @@ public class AdicionarVendedor extends javax.swing.JFrame {
             }
         });
 
-        name1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel4.setText("Quantidade:");
+
+        quantity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                name1ActionPerformed(evt);
+                quantityActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("Telefone do Vendedor:");
+        jLabel5.setText("ID do Vendedor:");
+
+        vendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vendedorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(66, 66, 66)
+                .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(name, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2)
-                    .addComponent(name1)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
-                .addContainerGap(74, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(name)
+                            .addComponent(quantity)))
+                    .addComponent(vendedor, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,17 +119,21 @@ public class AdicionarVendedor extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(34, 34, 34)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(name1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -124,19 +146,32 @@ public class AdicionarVendedor extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            Registry regisry = LocateRegistry.getRegistry();
-            Person person = new Salesman(name.getText(), name1.getText());
-            PersonService service = (PersonService) regisry.lookup("PersonService");
-            service.add(person);
+            Registry registry = LocateRegistry.getRegistry();
+            
+            SalesmanService salesmanService = (SalesmanService) registry.lookup("SalesmanService");
+            Salesman salesman = salesmanService.get(Integer.parseInt(vendedor.getText()));
+            
+            ProductService productService = (ProductService) registry.lookup("ProductService");
+            Product product = productService.get(name.getText());
+            
+            OrderService orderService = (OrderService) registry.lookup("OrderService");
+            Order order = new Order(salesman, product, Integer.parseInt(quantity.getText()));
+            orderService.add(order);
+            
             this.dispose();
         } catch (RemoteException | NotBoundException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void name1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name1ActionPerformed
+    private void quantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quantityActionPerformed
 
-    }//GEN-LAST:event_name1ActionPerformed
+    private void vendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_vendedorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -144,7 +179,9 @@ public class AdicionarVendedor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField name;
-    private javax.swing.JTextField name1;
+    private javax.swing.JTextField quantity;
+    private javax.swing.JTextField vendedor;
     // End of variables declaration//GEN-END:variables
 }

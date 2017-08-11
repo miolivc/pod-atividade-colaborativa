@@ -5,28 +5,24 @@
  */
 package br.edu.ifpb.app.sale.client;
 
-import br.edu.ifpb.app.sale.shared.entity.Person;
-import br.edu.ifpb.app.sale.shared.entity.Salesman;
-import br.edu.ifpb.app.sale.shared.service.PersonService;
-import java.rmi.AccessException;
+import br.edu.ifpb.app.sale.shared.entity.Product;
+import br.edu.ifpb.app.sale.shared.service.ProductService;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author miolivc
  */
-public class AdicionarVendedor extends javax.swing.JFrame {
+public class AdicionarProduto extends javax.swing.JFrame {
 
     /**
-     * Creates new form AdicionarVendedor
+     * Creates new form AdicionarProduto
      */
-    public AdicionarVendedor() {
+    public AdicionarProduto() {
         initComponents();
     }
 
@@ -42,10 +38,8 @@ public class AdicionarVendedor extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        name = new javax.swing.JTextField();
+        name2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        name1 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,13 +47,13 @@ public class AdicionarVendedor extends javax.swing.JFrame {
         jLabel1.setText("Pedido de Produtos");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel2.setText("Adicionar Vendedor");
+        jLabel2.setText("Adicionar Produto");
 
-        jLabel3.setText("Nome do Vendedor:");
+        jLabel3.setText("Nome do Produto:");
 
-        name.addActionListener(new java.awt.event.ActionListener() {
+        name2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameActionPerformed(evt);
+                name2ActionPerformed(evt);
             }
         });
 
@@ -70,14 +64,6 @@ public class AdicionarVendedor extends javax.swing.JFrame {
             }
         });
 
-        name1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                name1ActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("Telefone do Vendedor:");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,13 +72,11 @@ public class AdicionarVendedor extends javax.swing.JFrame {
                 .addGap(66, 66, 66)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(name, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(name2, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2)
-                    .addComponent(name1)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
-                .addContainerGap(74, Short.MAX_VALUE))
+                    .addComponent(jLabel2))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,47 +88,39 @@ public class AdicionarVendedor extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(name1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(name2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
+    private void name2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nameActionPerformed
+    }//GEN-LAST:event_name2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
             Registry regisry = LocateRegistry.getRegistry();
-            Person person = new Salesman(name.getText(), name1.getText());
-            PersonService service = (PersonService) regisry.lookup("PersonService");
-            service.add(person);
+            Product product = new Product(name2.getText());
+            ProductService service = (ProductService) regisry.lookup("ProductService");
+            service.add(product);
             this.dispose();
         } catch (RemoteException | NotBoundException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void name1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name1ActionPerformed
-
-    }//GEN-LAST:event_name1ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField name;
     private javax.swing.JTextField name1;
+    private javax.swing.JTextField name2;
     // End of variables declaration//GEN-END:variables
 }

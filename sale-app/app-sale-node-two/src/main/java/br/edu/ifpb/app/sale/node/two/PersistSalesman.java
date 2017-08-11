@@ -30,8 +30,11 @@ public class PersistSalesman implements SalesmanService {
     @Override
     public void add(Salesman salesman) {
         try {
-            String sql = "INSERT INTO SALESMAN(PHONE) VALUES(?)";
+            String sql = "INSERT INTO SALESMAN(ID, PHONE) VALUES(?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, salesman.getId());
+            stmt.setString(2, salesman.getPhone());
+            stmt = connection.prepareStatement(sql);
             if (stmt.executeUpdate() <= 0) throw new SQLException();
         } catch (SQLException ex) {
             System.err.println(ex);
