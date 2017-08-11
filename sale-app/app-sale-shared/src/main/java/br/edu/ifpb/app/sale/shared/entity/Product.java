@@ -5,11 +5,13 @@
  */
 package br.edu.ifpb.app.sale.shared.entity;
 
+import java.io.Serializable;
+
 /**
  *
  * @author miolivc
  */
-public class Product {
+public class Product implements Serializable {
     private int id;
     private String name;
 

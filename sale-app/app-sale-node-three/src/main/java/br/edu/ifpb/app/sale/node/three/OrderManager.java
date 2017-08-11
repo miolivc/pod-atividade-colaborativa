@@ -15,8 +15,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -29,7 +27,7 @@ public class OrderManager extends UnicastRemoteObject implements OrderService {
 
     public OrderManager() throws RemoteException {
         this.persist = new PersistOrder();
-        this.registry = LocateRegistry.getRegistry();
+        this.registry = LocateRegistry.getRegistry("localhost", 10998);
         try {
             this.service = (SalesmanService) registry.lookup("SalesmanService");
         } catch (NotBoundException | AccessException ex) {

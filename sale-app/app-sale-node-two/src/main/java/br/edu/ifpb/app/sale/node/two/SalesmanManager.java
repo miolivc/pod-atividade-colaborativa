@@ -8,7 +8,6 @@ package br.edu.ifpb.app.sale.node.two;
 import br.edu.ifpb.app.sale.shared.entity.Salesman;
 import br.edu.ifpb.app.sale.shared.service.PersonService;
 import br.edu.ifpb.app.sale.shared.service.SalesmanService;
-import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -25,26 +24,35 @@ import java.util.logging.Logger;
 public class SalesmanManager extends UnicastRemoteObject implements SalesmanService {
     private final PersistSalesman persist;
     private final Registry registry;
-    private PersonService service;
     
     public SalesmanManager() throws RemoteException {
         this.persist = new PersistSalesman();
-        this.registry = LocateRegistry.getRegistry();
+        this.registry = LocateRegistry.getRegistry("localhost",10997);
+    }
+    
+    private PersonService getService() {
+        PersonService service = null;
         try {
-            this.service = (PersonService) registry.lookup("PersonService");
-        } catch (NotBoundException | AccessException ex) {
+            service = (PersonService) registry.lookup("PersonService");
+        } catch (RemoteException | NotBoundException ex) {
             Logger.getLogger(SalesmanManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
+        return service;
     }
 
     @Override
     public void add(Salesman salesman) throws RemoteException {
+        PersonService service = getService();
         persist.add(salesman);
-        service.add(salesman);
+        System.out.println(salesman);
+        if (service.get(salesman.getName()) == null) {
+            service.add(salesman);
+        }
     }
 
     @Override
     public void remove(int id) throws RemoteException {
+        PersonService service = getService();
         persist.remove(id);
         service.remove(id);
     }

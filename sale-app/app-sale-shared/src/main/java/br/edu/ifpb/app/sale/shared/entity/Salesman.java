@@ -5,11 +5,13 @@
  */
 package br.edu.ifpb.app.sale.shared.entity;
 
+import java.io.Serializable;
+
 /**
  *
  * @author miolivc
  */
-public class Salesman extends Person {
+public class Salesman extends Person implements Serializable {
     private String phone;
 
     public Salesman() {

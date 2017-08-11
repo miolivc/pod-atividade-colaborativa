@@ -7,7 +7,6 @@ package br.edu.ifpb.app.sale.node.two;
 
 import br.edu.ifpb.app.sale.shared.entity.Salesman;
 import br.edu.ifpb.app.sale.shared.service.SalesmanService;
-import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,12 +29,11 @@ public class PersistSalesman implements SalesmanService {
     @Override
     public void add(Salesman salesman) {
         try {
-            String sql = "INSERT INTO SALESMAN(ID, PHONE) VALUES(?, ?)";
+            String sql = "INSERT INTO SALESMAN(PERSONID, PHONE) VALUES(?,?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, salesman.getId());
             stmt.setString(2, salesman.getPhone());
-            stmt = connection.prepareStatement(sql);
-            if (stmt.executeUpdate() <= 0) throw new SQLException();
+            stmt.executeUpdate();
         } catch (SQLException ex) {
             System.err.println(ex);
         }
@@ -45,7 +43,7 @@ public class PersistSalesman implements SalesmanService {
     @Override
     public void remove(int id) {
         try {
-            String sql = "DELETE FROM SALESMAN WHERE ID = ?";
+            String sql = "DELETE FROM SALESMAN WHERE PERSONID = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             if (stmt.executeUpdate() <= 0) throw new SQLException();
@@ -63,7 +61,7 @@ public class PersistSalesman implements SalesmanService {
             List<Salesman> salesmans = new ArrayList<>();
             while(rs.next()) {
                 Salesman salesman = new Salesman();
-                salesman.setId(rs.getInt("id"));
+                salesman.setId(rs.getInt("personid"));
                 salesman.setPhone("phone");
                 salesmans.add(salesman);
             }
@@ -77,14 +75,14 @@ public class PersistSalesman implements SalesmanService {
     @Override
     public Salesman get(int id) {
         try {
-            String sql = "SELECT * FROM SALESMAN WHERE ID = ?";
+            String sql = "SELECT * FROM SALESMAN WHERE PERSONID = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             Salesman salesman = new Salesman();
             while(rs.next()) {
-                salesman.setId(rs.getInt("id"));
-                salesman.setPhone("phone");
+                salesman.setId(rs.getInt("personid"));
+                salesman.setPhone(rs.getString("phone"));
             }
             return salesman;
         } catch (SQLException ex) {

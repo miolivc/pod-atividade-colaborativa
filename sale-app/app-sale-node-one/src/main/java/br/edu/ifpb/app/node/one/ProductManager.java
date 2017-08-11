@@ -8,6 +8,7 @@ package br.edu.ifpb.app.node.one;
 import br.edu.ifpb.app.sale.shared.entity.Product;
 import br.edu.ifpb.app.sale.shared.service.ProductService;
 import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
@@ -24,22 +25,22 @@ public class ProductManager extends UnicastRemoteObject implements ProductServic
     
     @Override
     public void add(Product product) throws RemoteException {
-        
+        persist.add(product);
     }
 
     @Override
     public void remove(int id) throws RemoteException {
-        
+        persist.remove(id);
     }
 
     @Override
     public List<Product> list() throws RemoteException {
-        return null;
+        return persist.list();
     }
 
     @Override
     public Product get(String name) throws RemoteException {
-        return null;
+        return persist.get(name);
     }
     
 }
