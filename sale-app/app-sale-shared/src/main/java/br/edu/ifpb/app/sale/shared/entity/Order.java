@@ -15,6 +15,9 @@ public class Order {
     private Product product;
     private int quantity;
 
+    public Order() {
+    }
+
     public Order(Salesman salesman, Product product, int quantity) {
         this.salesman = salesman;
         this.product = product;
