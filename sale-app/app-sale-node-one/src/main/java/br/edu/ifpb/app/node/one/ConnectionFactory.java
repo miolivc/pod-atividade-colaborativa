@@ -21,7 +21,7 @@ public class ConnectionFactory implements ConnectionService {
     public Connection getConnection() {
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db_node_1");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db_node_1", "postgres", "postgres");
         } catch (ClassNotFoundException | SQLException ex) {
             System.err.println(ex);
         }
