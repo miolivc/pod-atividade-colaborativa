@@ -124,7 +124,7 @@ public class AdicionarVendedor extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            Registry regisry = LocateRegistry.getRegistry();
+            Registry regisry = LocateRegistry.getRegistry(10997);
             Person person = new Salesman(name.getText(), name1.getText());
             PersonService service = (PersonService) regisry.lookup("PersonService");
             service.add(person);

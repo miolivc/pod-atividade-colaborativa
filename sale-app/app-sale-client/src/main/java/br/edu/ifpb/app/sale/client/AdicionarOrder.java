@@ -146,14 +146,16 @@ public class AdicionarOrder extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.getRegistry(10998);
             
             SalesmanService salesmanService = (SalesmanService) registry.lookup("SalesmanService");
             Salesman salesman = salesmanService.get(Integer.parseInt(vendedor.getText()));
             
+            registry = LocateRegistry.getRegistry(10997);
             ProductService productService = (ProductService) registry.lookup("ProductService");
             Product product = productService.get(name.getText());
             
+            registry = LocateRegistry.getRegistry(10999);
             OrderService orderService = (OrderService) registry.lookup("OrderService");
             Order order = new Order(salesman, product, Integer.parseInt(quantity.getText()));
             orderService.add(order);

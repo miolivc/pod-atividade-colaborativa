@@ -23,7 +23,7 @@ public class NodeOneMain {
         PersonService personManager = new PersonManager();
         ProductService productService = new ProductManager();
         
-        Registry registry = LocateRegistry.createRegistry(1099);
+        Registry registry = LocateRegistry.createRegistry(10997);
         
         registry.bind("PersonService", personManager);
         registry.bind("ProductService", productService);

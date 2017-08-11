@@ -21,7 +21,7 @@ public class NodeTwoMain {
         
         SalesmanService salesmanService = new SalesmanManager();
         
-        Registry registry = LocateRegistry.createRegistry(1099);
+        Registry registry = LocateRegistry.createRegistry(10998);
         
         registry.bind("SalesmanService", salesmanService);
         
