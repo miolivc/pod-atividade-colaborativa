@@ -71,7 +71,7 @@ public class PersistPerson implements PersonService {
     @Override
     public Person get(String name) {
         try {
-            String sql = "SELECT * FROM PERSON WHERE ID = ?";
+            String sql = "SELECT * FROM PERSON WHERE NAME = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, name);
             ResultSet rs = stmt.executeQuery();

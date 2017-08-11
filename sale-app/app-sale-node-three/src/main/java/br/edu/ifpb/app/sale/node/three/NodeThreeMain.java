@@ -21,7 +21,7 @@ public class NodeThreeMain {
         
         OrderService orderService = new OrderManager();
         
-        Registry registry = LocateRegistry.createRegistry(10999);
+        Registry registry = LocateRegistry.createRegistry(1099);
         
         registry.bind("OrderService", orderService);
         
