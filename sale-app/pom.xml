@@ -9,6 +9,8 @@
         <module>app-sale-shared</module>
         <module>app-sale-node-two</module>
         <module>app-sale-node-one</module>
+        <module>app-sale-node-three</module>
+        <module>app-sale-client</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
