@@ -19,6 +19,6 @@ public interface SalesmanService extends Remote {
    void add(Salesman salesman)throws RemoteException;
    void remove(int id) throws RemoteException;
    List<Salesman> list() throws RemoteException;
-   Salesman get(String name) throws RemoteException;
+   Salesman get(int id) throws RemoteException;
            
 }

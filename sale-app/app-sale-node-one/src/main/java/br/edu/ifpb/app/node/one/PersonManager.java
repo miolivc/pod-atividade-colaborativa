@@ -11,6 +11,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,39 +25,43 @@ import java.util.List;
  * @author miolivc
  */
 public class PersonManager extends UnicastRemoteObject implements PersonService {
-
     private final PersistPerson persist;
     private final Registry registry;
+    private SalesmanService service;
     
     public PersonManager() throws RemoteException {
         this.persist = new PersistPerson();
         this.registry = LocateRegistry.getRegistry();
-    }
-    
-    @Override
-    public void add(Person person) throws RemoteException {
         try {
-            persist.add(person);
-            SalesmanService service = (SalesmanService) registry.lookup("SalesmanService");
-            service.add((Salesman) person);
+            this.service = (SalesmanService) registry.lookup("SalesmanService");
         } catch (NotBoundException | AccessException ex) {
             System.err.println(ex);
         }
     }
+    
+    @Override
+    public void add(Person person) throws RemoteException {
+        persist.add(person);
+        if (service.get(person.getId()) == null) {
+            service.add((Salesman) person);
+        }
+            
+    }
 
     @Override
     public void remove(int id) throws RemoteException {
-        
+        persist.remove(id);
+        service.remove(id);
     }
 
     @Override
     public List<Person> list() throws RemoteException {
-        return null;
+        return persist.list();
     }
 
     @Override
     public Person get(String name) throws RemoteException {
-        return null;
+        return persist.get(name);
     }
     
     
