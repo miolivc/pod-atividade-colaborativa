@@ -5,8 +5,11 @@
  */
 package br.edu.ifpb.app.node.one;
 
+import br.edu.ifpb.app.sale.shared.entity.Person;
+import br.edu.ifpb.app.sale.shared.entity.Salesman;
 import br.edu.ifpb.app.sale.shared.service.PersonService;
 import br.edu.ifpb.app.sale.shared.service.ProductService;
+import java.net.Socket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -19,7 +22,7 @@ import java.rmi.registry.Registry;
 public class NodeOneMain {
     
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
-        
+/*        
         PersonService personManager = new PersonManager();
         ProductService productService = new ProductManager();
         
@@ -27,7 +30,13 @@ public class NodeOneMain {
         
         registry.bind("PersonService", personManager);
         registry.bind("ProductService", productService);
-        
+  */
+        try {
+            Person pessoa = ConexSocket.receberPessoa();
+            ConexSocket.cadastraVendedor((Salesman) pessoa);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     
 }

@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
  */
 public class AdicionarVendedor extends javax.swing.JFrame {
 
+    
     /**
      * Creates new form AdicionarVendedor
      */
@@ -122,7 +123,7 @@ public class AdicionarVendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_nameActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
+        /*try {
             // TODO add your handling code here:
             Registry regisry = LocateRegistry.getRegistry();
             Person person = new Salesman(name.getText(), name1.getText());
@@ -131,7 +132,16 @@ public class AdicionarVendedor extends javax.swing.JFrame {
             this.setEnabled(false);
         } catch (RemoteException | NotBoundException ex) {
             JOptionPane.showMessageDialog(null, ex);
+        }*/
+        try {
+             Person person = new Salesman(name.getText(), name1.getText());
+             ConexSocket.cadastraVendedor((Salesman)person);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,e.getMessage());
         }
+            
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void name1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name1ActionPerformed
