@@ -11,15 +11,11 @@ import br.edu.ifpb.app.sale.shared.entity.Salesman;
 import br.edu.ifpb.app.sale.shared.service.OrderService;
 import br.edu.ifpb.app.sale.shared.service.ProductService;
 import br.edu.ifpb.app.sale.shared.service.SalesmanService;
-import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import sun.print.resources.serviceui;
 
 /**
  *
@@ -146,14 +142,28 @@ public class AdicionarOrder extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            Registry registry = LocateRegistry.getRegistry(10998);
+            Registry registry = LocateRegistry.getRegistry("localhost", 10998);
             
             SalesmanService salesmanService = (SalesmanService) registry.lookup("SalesmanService");
             Salesman salesman = salesmanService.get(Integer.parseInt(vendedor.getText()));
+            if (salesman.getPhone() == null) {
+                String nome = JOptionPane.showInputDialog("Digite o nome do vendedor");
+                String phone = JOptionPane.showInputDialog("Digite o telefone do vendedor");
+                salesman = new Salesman(nome, phone);
+                salesman.setId(Integer.parseInt(vendedor.getText()));
+                salesmanService.add(salesman);
+            }
             
             registry = LocateRegistry.getRegistry(10997);
             ProductService productService = (ProductService) registry.lookup("ProductService");
             Product product = productService.get(name.getText());
+            if (product == null) {
+                int answer = JOptionPane.showConfirmDialog(null, "O produto nao existe, deseja adicionar?");
+                if (answer == JOptionPane.OK_OPTION) {
+                    product = new Product(name.getText());
+                    productService.add(product);
+                }
+            }
             
             registry = LocateRegistry.getRegistry(10999);
             OrderService orderService = (OrderService) registry.lookup("OrderService");

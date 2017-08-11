@@ -44,7 +44,6 @@ public class SalesmanManager extends UnicastRemoteObject implements SalesmanServ
     public void add(Salesman salesman) throws RemoteException {
         PersonService service = getService();
         persist.add(salesman);
-        System.out.println(salesman);
         if (service.get(salesman.getName()) == null) {
             service.add(salesman);
         }

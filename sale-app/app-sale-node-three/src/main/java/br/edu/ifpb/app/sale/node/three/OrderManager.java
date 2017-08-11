@@ -23,20 +23,25 @@ import java.util.List;
 public class OrderManager extends UnicastRemoteObject implements OrderService {
     private final PersistOrder persist;
     private final Registry registry;
-    private SalesmanService service;
 
     public OrderManager() throws RemoteException {
         this.persist = new PersistOrder();
         this.registry = LocateRegistry.getRegistry("localhost", 10998);
+    }
+    
+    private SalesmanService getService() throws RemoteException {
+        SalesmanService service = null;
         try {
-            this.service = (SalesmanService) registry.lookup("SalesmanService");
+            service = (SalesmanService) registry.lookup("SalesmanService");
         } catch (NotBoundException | AccessException ex) {
             System.err.println(ex);
         }
+        return service;
     }
 
     @Override
     public void add(Order order) throws RemoteException {
+        SalesmanService service = getService();
         persist.add(order);
         service.add(order.getSalesman());
     }
@@ -48,6 +53,7 @@ public class OrderManager extends UnicastRemoteObject implements OrderService {
 
     @Override
     public List<Order> list() throws RemoteException {
+        SalesmanService service = getService();
         return persist.list();
     }
 

@@ -14,8 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -79,8 +77,9 @@ public class PersistOrder implements OrderService {
     @Override
     public Order get(int id) {
         try {
-            String sql = "SELECT * FROM ORDER_SALE";
+            String sql = "SELECT * FROM ORDER_SALE WHERE ID = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             Order order = new Order();
             while(rs.next()) {

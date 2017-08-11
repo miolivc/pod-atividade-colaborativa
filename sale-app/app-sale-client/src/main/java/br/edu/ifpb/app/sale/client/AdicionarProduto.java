@@ -104,7 +104,7 @@ public class AdicionarProduto extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            Registry regisry = LocateRegistry.getRegistry();
+            Registry regisry = LocateRegistry.getRegistry("localhost", 10997);
             Product product = new Product(name2.getText());
             ProductService service = (ProductService) regisry.lookup("ProductService");
             service.add(product);
