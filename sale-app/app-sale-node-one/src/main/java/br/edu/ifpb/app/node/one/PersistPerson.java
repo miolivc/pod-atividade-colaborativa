@@ -29,10 +29,9 @@ public class PersistPerson implements PersonService {
     @Override
     public void add(Person person) {
         try {
-            String sql = "INSERT INTO PERSON(ID, NAME) VALUES(?,?)";
+            String sql = "INSERT INTO PERSON(NAME) VALUES(?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, person.getId());
-            stmt.setString(2, person.getName());
+            stmt.setString(1, person.getName());
             if (stmt.executeUpdate() < 0) throw new SQLException();
         } catch (SQLException ex) {
             System.err.println("Err on add method: " + ex);

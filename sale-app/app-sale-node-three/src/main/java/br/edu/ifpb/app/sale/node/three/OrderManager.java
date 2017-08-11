@@ -7,9 +7,16 @@ package br.edu.ifpb.app.sale.node.three;
 
 import br.edu.ifpb.app.sale.shared.entity.Order;
 import br.edu.ifpb.app.sale.shared.service.OrderService;
+import br.edu.ifpb.app.sale.shared.service.SalesmanService;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,29 +24,38 @@ import java.util.List;
  */
 public class OrderManager extends UnicastRemoteObject implements OrderService {
     private final PersistOrder persist;
+    private final Registry registry;
+    private SalesmanService service;
 
     public OrderManager() throws RemoteException {
         this.persist = new PersistOrder();
+        this.registry = LocateRegistry.getRegistry();
+        try {
+            this.service = (SalesmanService) registry.lookup("SalesmanService");
+        } catch (NotBoundException | AccessException ex) {
+            System.err.println(ex);
+        }
     }
 
     @Override
     public void add(Order order) throws RemoteException {
-        
+        persist.add(order);
+        service.add(order.getSalesman());
     }
 
     @Override
     public void remove(int id) throws RemoteException {
-        
+        persist.remove(id);
     }
 
     @Override
     public List<Order> list() throws RemoteException {
-        return null;
+        return persist.list();
     }
 
     @Override
     public Order get(int id) throws RemoteException {
-        return null;
+        return persist.get(id);
     }
     
 }
