@@ -5,6 +5,8 @@
  */
 package br.edu.ifpb.app.sale.node.three;
 
+import br.edu.ifpb.app.sale.shared.entity.Order;
+import br.edu.ifpb.app.sale.shared.entity.Salesman;
 import br.edu.ifpb.app.sale.shared.service.OrderService;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -19,11 +21,21 @@ public class NodeThreeMain {
     
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
         
-        OrderService orderService = new OrderManager();
+        /*OrderService orderService = new OrderManager();
         
         Registry registry = LocateRegistry.createRegistry(10999);
         
-        registry.bind("OrderService", orderService);
+        registry.bind("OrderService", orderService);*/
+        try {
+                Order ordem = ConexSocket.receberOrder();//Recebe a order 
+                ConexSocket.enviarOrder(ordem);//Envia a ordem para node2 
+                ordem = ConexSocket.receberOrder();//Aguarda o retorno de node2 com os id de produto e Pessoa
+                PersistOrder per = new PersistOrder();
+                per.add(ordem);//Persiste Node2
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         
     }
     

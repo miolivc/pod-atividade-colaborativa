@@ -57,6 +57,21 @@ public class ConexSocket {
         
     }
     
+    public static String receberDados () throws IOException{
+        String mensagem = "";
+        System.out.println("Servidor ativo!");
+        ServerSocket server = new ServerSocket(PORTA_NODE1);
+        while(true){
+            Socket sock = server.accept();
+            InputStream in = sock.getInputStream();
+            byte[] b = new byte[1024];
+            in.read(b);
+            mensagem = new String(b).trim();
+            server.close();
+            return mensagem;
+        }
+        
+    }
     
      public static Salesman receberVendedor () throws IOException{
         String mensagem = "";
@@ -73,6 +88,26 @@ public class ConexSocket {
             return g.fromJson(mensagem, Salesman.class);
         }
         
+    }
+
+    static String enviarOrder(Order order) throws IOException, Exception {
+        String retorno = "";
+        Socket sock = new Socket(HOST_NODE2, PORTA_NODE2);
+        OutputStream out = sock.getOutputStream();
+        Gson g = new Gson();
+        String mensagem = g.toJson(order);
+        mensagem = "RETORNO--" + mensagem;
+        out.write(mensagem.getBytes());
+        //tratando o retorno
+        InputStream in = sock.getInputStream();
+        byte[] b = new byte[1024];
+        in.read(b);
+        retorno = new String(b);
+        if (retorno.contains("ERROR")){ 
+            throw  new Exception("Conexão com NODE1 foi recusada");
+        }
+        sock.close();
+        return retorno.trim();
     }
         
     

@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface PersonService extends Remote {
     
-    void add(Person person)throws RemoteException;
+    Person add(Person person)throws RemoteException;
     void remove(int id) throws RemoteException;
     List<Person> list() throws RemoteException;
     Person get(String name) throws RemoteException;

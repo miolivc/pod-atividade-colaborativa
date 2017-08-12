@@ -8,9 +8,11 @@ package br.edu.ifpb.app.node.one;
 import br.edu.ifpb.app.sale.shared.entity.Person;
 import br.edu.ifpb.app.sale.shared.service.PersonService;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,19 +21,40 @@ import java.util.List;
  * @author miolivc
  */
 public class PersistPerson implements PersonService {
-    private Connection connection;
+    private final Connection connection;
 
     public PersistPerson() {
         this.connection = new ConnectionFactory().getConnection();
     }
     
     @Override
-    public void add(Person person) {
+    public Person add(Person person) {
         try {
-            String sql = "INSERT INTO PERSON(NAME) VALUES(?)";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            String sql = "INSERT INTO PERSON(NAME) VALUES(?);";
+            PreparedStatement stmt = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             //stmt.setInt(1, person.getId());
             stmt.setString(1, person.getName());
+            if (stmt.executeUpdate() < 0) throw new SQLException();
+            ResultSet rs = stmt.getGeneratedKeys();
+            while (rs.next()){
+                person.setId(rs.getInt("id"));
+            }
+            
+        } catch (SQLException ex) {
+            System.err.println("Err on add method: " + ex);
+        }finally{ 
+            //person.setId( get(person.getName()).getId());
+            return person;
+        }
+        
+    }
+
+    @Override
+    public void remove(int id) {
+        try {
+            String sql = "DELETE FROM PERSON WHERE ID = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
             if (stmt.executeUpdate() < 0) throw new SQLException();
         } catch (SQLException ex) {
             System.err.println("Err on add method: " + ex);
@@ -39,17 +62,39 @@ public class PersistPerson implements PersonService {
     }
 
     @Override
-    public void remove(int id) {
-        
-    }
-
-    @Override
     public List<Person> list() {
+        try {
+            String sql = "SELECT * FROM PERSON";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            List<Person> persons = new ArrayList<>();
+            while (rs.next()) {                
+                Person person = new Person(rs.getString("name"));
+                persons.add(person);
+            }
+            return persons;
+        } catch (SQLException ex) {
+            System.err.println("Err on add method: " + ex);
+        }
         return Collections.EMPTY_LIST;
     }
 
     @Override
     public Person get(String name) {
+        try {
+            String sql = "SELECT * FROM PERSON WHERE name = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            Person person = new Person();
+            while (rs.next()) {                
+                person.setId(rs.getInt("id"));
+                person.setName(rs.getString("name"));
+            }
+            return person;
+        } catch (SQLException ex) {
+            System.err.println("Err on add method: " + ex);
+        }
         return null;
     }
     

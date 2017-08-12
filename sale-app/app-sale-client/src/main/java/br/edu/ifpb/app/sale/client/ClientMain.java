@@ -5,6 +5,8 @@
  */
 package br.edu.ifpb.app.sale.client;
 
+import br.edu.ifpb.app.sale.shared.entity.Product;
+
 /**
  *
  * @author miolivc
@@ -101,7 +103,8 @@ public class ClientMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        Product produto = new Product("Leite");
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
