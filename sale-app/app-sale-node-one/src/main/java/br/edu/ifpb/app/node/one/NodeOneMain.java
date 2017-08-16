@@ -50,16 +50,10 @@ public class NodeOneMain {
                 Order order = g.fromJson(resp[1], Order.class);
                 pessoa = order.getSalesman();
                 produto = order.getProduct();
-                //pessoa =(Salesman) per.add(pessoa);
                 perpro.add(produto);
-                //order.setProduct(produto);
-                //order.setSalesman(pessoa);
-               // ConexSocket.enviarOrder(order);
-                        
             }else
             {
                 pessoa = g.fromJson(resp[0], Salesman.class);
-                
             }
             pessoa =(Salesman) per.add(pessoa);
             ConexSocket.cadastraVendedor(pessoa);

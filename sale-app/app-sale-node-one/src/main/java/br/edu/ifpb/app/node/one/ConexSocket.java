@@ -67,6 +67,7 @@ public class ConexSocket {
             byte[] b = new byte[1024];
             in.read(b);
             mensagem = new String(b).trim();
+            sock.close();
             server.close();
             return mensagem;
         }
