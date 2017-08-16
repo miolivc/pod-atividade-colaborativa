@@ -60,7 +60,7 @@ public class ConexSocket {
     public static String receberDados () throws IOException{
         String mensagem = "";
         System.out.println("Servidor ativo!");
-        ServerSocket server = new ServerSocket(PORTA_NODE1);
+        ServerSocket server = new ServerSocket(PORTA_NODE2);
         while(true){
             Socket sock = server.accept();
             InputStream in = sock.getInputStream();

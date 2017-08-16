@@ -28,10 +28,9 @@ public class NodeThreeMain {
         registry.bind("OrderService", orderService);*/
         try {
                 Order ordem = ConexSocket.receberOrder();//Recebe a order 
-                ConexSocket.enviarOrder(ordem);//Envia a ordem para node2 
-                ordem = ConexSocket.receberOrder();//Aguarda o retorno de node2 com os id de produto e Pessoa
                 PersistOrder per = new PersistOrder();
                 per.add(ordem);//Persiste Node2
+                ConexSocket.enviarOrder(ordem);//Envia a ordem para node2 
             
         } catch (Exception e) {
             System.out.println(e.getMessage());

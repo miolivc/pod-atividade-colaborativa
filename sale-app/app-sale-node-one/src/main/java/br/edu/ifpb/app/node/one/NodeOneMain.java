@@ -36,35 +36,34 @@ public class NodeOneMain {
         registry.bind("PersonService", personManager);
         registry.bind("ProductService", productService);
   */
-        try {
-            String dados = ConexSocket.receberDados();
             Salesman pessoa = null;
-            Product produto = new Product();
+            Product produto = null;
             Gson g =new Gson();
             PersistPerson per = new PersistPerson();
             PersistProduct perpro = new PersistProduct();
+            
+        try {
+            String dados = ConexSocket.receberDados();
             
             String[] resp = dados.split("---");
             if (resp[0].equals("NODE3")){
                 Order order = g.fromJson(resp[1], Order.class);
                 pessoa = order.getSalesman();
                 produto = order.getProduct();
-                pessoa =(Salesman) per.add(pessoa);
+                //pessoa =(Salesman) per.add(pessoa);
                 perpro.add(produto);
-                order.setProduct(produto);
-                order.setSalesman(pessoa);
-                ConexSocket.enviarOrder(order);
+                //order.setProduct(produto);
+                //order.setSalesman(pessoa);
+               // ConexSocket.enviarOrder(order);
                         
             }else
             {
                 pessoa = g.fromJson(resp[0], Salesman.class);
-                pessoa =(Salesman) per.add(pessoa);
-                ConexSocket.cadastraVendedor(pessoa);
+                
             }
-            
-            
-            
-            
+            pessoa =(Salesman) per.add(pessoa);
+            ConexSocket.cadastraVendedor(pessoa);
+ 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

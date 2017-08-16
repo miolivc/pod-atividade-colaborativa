@@ -5,7 +5,13 @@
  */
 package br.edu.ifpb.app.sale.client;
 
+import br.edu.ifpb.app.sale.shared.entity.Order;
+import br.edu.ifpb.app.sale.shared.entity.Person;
 import br.edu.ifpb.app.sale.shared.entity.Product;
+import br.edu.ifpb.app.sale.shared.entity.Salesman;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -103,7 +109,18 @@ public class ClientMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Product produto = new Product("Leite");
+        try {
+            //Cria os dados para uma ordem
+            Product produto = new Product("Leite");
+            produto.setId(1);
+            Person pessoa = new Salesman("Teste 10", "98627468");
+            pessoa.setId(70);
+            Order order = new Order((Salesman) pessoa, produto, 5);
+            //Enviando para node3
+            ConexSocket.cadastraOrdem(order); 
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage());
+        }
         
     }//GEN-LAST:event_jButton4ActionPerformed
 

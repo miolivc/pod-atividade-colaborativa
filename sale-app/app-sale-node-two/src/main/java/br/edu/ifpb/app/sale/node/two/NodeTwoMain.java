@@ -32,23 +32,20 @@ public class NodeTwoMain {
         try {
             String dados = ConexSocket.receberDados();
             Salesman vendedor = null;
-            Order order =null;
+            //Order order =null;
             Gson g = new Gson();
             String[] retorno =dados.split("---");
             
             if (retorno[0].equals("NODE3")){
                 ConexSocket.enviarDados(dados); //envia para node1
                 dados = ConexSocket.receberDados();//aguarda o retorno de Node1
-                order = g.fromJson(retorno[1], Order.class);//Monta a Ordem a partir dos dados de node1
-                ConexSocket.enviarOrder(order);//Envia a orderm com os dados ID vendedor e Id Produto par node3
-                
-                vendedor = order.getSalesman();//Extrai o vendedor da ordem redecida de node1
-                
-            }else
-            {
-               vendedor =g.fromJson(retorno[1], Salesman.class);//extrai os dados de vendedor recebido de node1
+                retorno =dados.split("---");
+                //order = g.fromJson(retorno[1], Salesman.class);//Monta a Ordem a partir dos dados de node1
+                //ConexSocket.enviarOrder(order);//Envia a orderm com os dados ID vendedor e Id Produto par node3
+                //vendedor = order.getSalesman();//Extrai o vendedor da ordem redecida de node1
             }
             
+            vendedor =g.fromJson(retorno[1], Salesman.class);//extrai os dados de vendedor recebido de node1
             persiste(vendedor);// persiste os dados em node2
         } catch (Exception e) {
             System.out.println(e.getMessage());

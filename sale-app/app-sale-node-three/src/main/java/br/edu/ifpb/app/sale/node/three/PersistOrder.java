@@ -78,7 +78,7 @@ public class PersistOrder implements OrderService {
 
     @Override
     public Order get(int id) {
-        try {
+        /*try {
             String sql = "SELECT * FROM ORDER_SALE";
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -92,7 +92,7 @@ public class PersistOrder implements OrderService {
             return order;
         } catch (SQLException ex) {
             System.err.println(ex);
-        }
+        }*/
         return null;
     }
     
